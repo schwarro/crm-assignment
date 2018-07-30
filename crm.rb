@@ -36,82 +36,79 @@ class CRM
   end
 
   def add_new_contact
-    print "Enter first name: "
+    print 'Enter the first name: '
     first_name = gets.chomp.downcase
 
-    print "Enter last name: "
+    print 'Enter the last name: '
     last_name = gets.chomp.downcase
 
-    print "Enter email address: "
+    print 'Enter email address: '
     email = gets.chomp.downcase
 
-    print "Enter a note: "
+    print 'Enter a note: '
     note = gets.chomp.downcase
 
-    Contact.create(first_name, last_name, email, note)
+    contact = Contact.create(
+      first_name: first_name,
+      last_name:  last_name,
+      email:      email,
+      note:       note
+    )
 
+    contact.save
     puts "\e[H\e[2J"
   end
 
   def modify_existing_contact
-    print "Please enter the first name of the contact that you would like to update: "
+    print 'Enter the first name of the contact you would like to update: '
     name = gets.chomp.downcase
 
-    print "Please enter which attribute you would like to change: "
+    print 'Please enter what you would like to change: '
     attribute = gets.chomp.downcase
 
-    print "Please enter the new value: "
+    print 'Please enter the new value: '
     value = gets.chomp.downcase
 
-    contact = Contact.find_by("first_name", name)
-    contact.update(attribute, value)
+    contact = Contact.find_by('first_name' => name)
+    contact.update(attribute => value)
 
     puts "\e[H\e[2J"
 
     p contact
-
   end
 
   def delete_contact
-
-    print "Please enter the first name of the contact that you would like to delete: "
+    print "Please enter the first name of the contact you would like to delete: "
     name = gets.chomp.downcase
-    contact = Contact.find_by("first_name", name)
+    contact = Contact.find_by('first_name' => name)
     contact.delete
 
     puts "\e[H\e[2J"
+
   end
 
   def display_all_contacts
-
     puts "\e[H\e[2J"
-
     p Contact.all
-
   end
 
   def search_by_attribute
-
-    print "Please enter the attribute that you would like to search by: "
+    print "Enter the attribute that you would like to search by: "
     attribute = gets.chomp.downcase
 
     print "Enter the value of the selected attribute: "
     value = gets.chomp.downcase
 
-    contact = Contact.find_by(attribute, value)
-
+    contact = Contact.find_by(attribute => value)
     puts "\e[H\e[2J"
-
     p contact
-
   end
-
 
 end
 
-a_crm_app = CRM.new("My CRM App")
-a_crm_app.main_menu
+crm1 = CRM.new('this is my first crm')
+crm1.main_menu
 
 at_exit do
-  ActiveRecord ::Base.connection.close
+  ActiveRecord::Base.connection.close
 end
