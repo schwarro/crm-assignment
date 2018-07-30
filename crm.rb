@@ -111,3 +111,7 @@ end
 
 a_crm_app = CRM.new("My CRM App")
 a_crm_app.main_menu
+
+at_exit do
+  ActiveRecord ::Base.connection.close
+end
